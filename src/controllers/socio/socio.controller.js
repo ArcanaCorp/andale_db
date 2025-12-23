@@ -102,7 +102,8 @@ export const login = async (req, res) => {
         return res.status(500).json({
             ok: false,
             message: "Error interno del servidor.",
-            error: ERROR_CODES.SERVER_ERROR,
+            error: error,
+            status: ERROR_CODES.SERVER_ERROR,
             code: 500
         });
     }
@@ -171,7 +172,7 @@ export const verifyOTP = async (req, res) => {
         const payload = {
             sub: sub_bussines
         }
-        
+
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1y' })
 
         return res.status(200).json({
@@ -186,7 +187,8 @@ export const verifyOTP = async (req, res) => {
         return res.status(500).json({
             ok: false,
             message: "Error interno del servidor.",
-            error: ERROR_CODES.SERVER_ERROR,
+            error: error,
+            status: ERROR_CODES.SERVER_ERROR,
             code: 500
         });
     }
