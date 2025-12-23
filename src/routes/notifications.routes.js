@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { sendGlobalNotification } from "../controllers/send/notifications.controller.js";
+import { sendPushNotification, subscribeNotifications } from "#src/controllers/send/notifications.controller.js";
+import { userMiddleware } from "#src/middlewares/user.middleware.js";
 
 const router = Router();
 
-router.post("/notification", sendGlobalNotification);
+router.post('/subscribe', userMiddleware, subscribeNotifications)
+router.post('/push', sendPushNotification)
 
 export default router;

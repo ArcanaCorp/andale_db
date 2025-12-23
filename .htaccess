@@ -1,7 +1,0 @@
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
-PassengerAppRoot "/home/ttutisco/andale.ttutis.com"
-PassengerBaseURI "/"
-PassengerNodejs "/home/ttutisco/nodevenv/andale.ttutis.com/20/bin/node"
-PassengerAppType node
-PassengerStartupFile src/index.js
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END

@@ -12,7 +12,7 @@ const router = Router();
 router.get('/recommendations', getHomeScreenData);
 router.get('/search', searchController)
 
-router.use('/send', notificationRoutes)
+router.use('/notifications', notificationRoutes)
 
 router.use('/places', placesRoutes);
 router.use('/socio', socioRoutes);
