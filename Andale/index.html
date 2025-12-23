@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ándale Ya</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra superior -->
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <button class="location-selector">
+                    <div>
+                        <div class="location-label">UBICACIÓN ACTUAL</div>
+                        <div class="location-value">
+                            <i data-lucide="map-pin" class="icon"></i>
+                            <span>Huancavelica, Perú</span>
+                        </div>
+                    </div>
+                </button>
+                <div class="action-icons">
+                    <button class="icon-button" id="notificationBtn">
+                        <i data-lucide="bell" class="icon"></i>
+                        <div class="notification-badge"></div>
+                    </button>
+                    <button class="icon-button" onclick="navigation.setActiveTab('profile')">
+                        <i data-lucide="user" class="icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Vista Principal -->
+            <div id="homeView" class="view active">
+                <!-- Barra de búsqueda -->
+                <div class="search-section">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            placeholder="Buscar lugares turísticos, restaurantes o hoteles"
+                            id="searchInput"
+                        >
+                        <button class="search-button">
+                            <i data-lucide="search" class="icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Categorías -->
+                <div class="categories-section">
+                    <div class="categories-container" id="categoriesContainer">
+                        <!-- Las categorías se generarán dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Banner promocional -->
+                <div class="promo-section">
+                    <div class="promo-banner">
+                        <div class="promo-background">
+                            <div class="promo-circle promo-circle-1"></div>
+                            <div class="promo-circle promo-circle-2"></div>
+                        </div>
+                        <div class="promo-content">
+                            <div class="promo-label">DESCUBRE HUANCAVELICA</div>
+                            <div class="promo-title">Tierra de Colores y Tradición</div>
+                            <div class="promo-description">Explora los tesoros escondidos de los Andes peruanos</div>
+                            <button class="promo-button" onclick="navigation.setActiveTab('promotions')">Ver Ofertas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lugares populares -->
+                <div class="carousel-section">
+                    <h2 class="section-title" id="categoryTitle">Destinos populares</h2>
+                    <div class="places-grid" id="homeItems">
+                        <!-- Los elementos se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Favoritos -->
+            <div id="favoritesView" class="view">
+                <div class="view-header">
+                    <button class="back-button" onclick="navigation.goBack()">
+                        <i data-lucide="arrow-left" class="icon"></i>
+                        <span>Mis Favoritos</span>
+                    </button>
+                </div>
+
+                <div class="carousel-section">
+                    <h2 class="section-title">Tus lugares favoritos</h2>
+                    <div class="places-grid" id="favoriteItems">
+                        <!-- Los favoritos se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Promociones -->
+            <div id="promotionsView" class="view">
+                <div class="view-header">
+                    <button class="back-button" onclick="navigation.goBack()">
+                        <i data-lucide="arrow-left" class="icon"></i>
+                        <span>Ofertas Especiales</span>
+                    </button>
+                </div>
+
+                <div class="promo-section">
+                    <div class="promo-banner">
+                        <div class="promo-background">
+                            <div class="promo-circle promo-circle-1"></div>
+                            <div class="promo-circle promo-circle-2"></div>
+                        </div>
+                        <div class="promo-content">
+                            <div class="promo-label">OFERTA DE TEMPORADA</div>
+                            <div class="promo-title">30% de descuento en paquetes turísticos</div>
+                            <div class="promo-description">Válido hasta fin de mes en agencias asociadas</div>
+                            <button class="promo-button">Reservar Ahora</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-section">
+                    <h2 class="section-title">Más promociones</h2>
+                    <div class="promotions-grid" id="promotionsGrid">
+                        <!-- Las promociones se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Pedidos -->
+            <div id="ordersView" class="view">
+                <div class="view-header">
+                    <button class="back-button" onclick="navigation.goBack()">
+                        <i data-lucide="arrow-left" class="icon"></i>
+                        <span>Mis Reservas</span>
+                    </button>
+                </div>
+
+                <div class="carousel-section">
+                    <h2 class="section-title">Historial de Reservas</h2>
+                    <div class="reservations-list" id="reservationsList">
+                        <!-- Las reservas se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Perfil -->
+            <div id="profileView" class="view">
+                <div class="view-header">
+                    <button class="back-button" onclick="navigation.goBack()">
+                        <i data-lucide="arrow-left" class="icon"></i>
+                        <span>Mi Perfil</span>
+                    </button>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i data-lucide="user" class="avatar-icon"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2>María del Pilar García Guillen</h2>
+                            <p>maria.garcia@email.com</p>
+                            <div class="member-badge">
+                                <i data-lucide="award" class="icon"></i>
+                                <span>Viajero Frecuente</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-sections">
+                        <div class="profile-section">
+                            <h3>Información personal</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">Teléfono:</span>
+                                    <span class="info-value">+51 987 654 321</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Miembro desde:</span>
+                                    <span class="info-value">Enero 2025</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Reservas realizadas:</span>
+                                    <span class="info-value" id="reservationsCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h3>Preferencias de viaje</h3>
+                            <div class="preferences">
+                                <span class="preference-tag">Turismo Cultural</span>
+                                <span class="preference-tag">Gastronomía Local</span>
+                                <span class="preference-tag">Aventura</span>
+                                <span class="preference-tag">Naturaleza</span>
+                                <span class="preference-tag">Fotografía</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h3>Configuración</h3>
+                            <div class="settings-list">
+                                <div class="setting-item">
+                                    <i data-lucide="bell" class="icon"></i>
+                                    <span>Notificaciones</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <i data-lucide="map" class="icon"></i>
+                                    <span>Modo offline</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="logout-button">
+                            <i data-lucide="log-out" class="icon"></i>
+                            Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Detalle -->
+            <div id="detailView" class="view detail-view">
+                <!-- El contenido se generará dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="bottom-nav">
+            <div class="nav-container">
+                <button class="nav-item active" onclick="navigation.setActiveTab('home')" data-tab="home">
+                    <i data-lucide="home" class="nav-icon"></i>
+                    <span class="nav-label">Inicio</span>
+                    <div class="nav-indicator"></div>
+                </button>
+                <button class="nav-item" onclick="navigation.setActiveTab('favorites')" data-tab="favorites">
+                    <i data-lucide="heart" class="nav-icon"></i>
+                    <span class="nav-label">Favoritos</span>
+                    <div class="nav-indicator"></div>
+                </button>
+                <button class="nav-item" onclick="navigation.setActiveTab('promotions')" data-tab="promotions">
+                    <i data-lucide="tag" class="nav-icon"></i>
+                    <span class="nav-label">Ofertas</span>
+                    <div class="nav-indicator"></div>
+                </button>
+                <button class="nav-item" onclick="navigation.setActiveTab('orders')" data-tab="orders">
+                    <i data-lucide="shopping-cart" class="nav-icon"></i>
+                    <span class="nav-label">Reservas</span>
+                    <div class="nav-indicator"></div>
+                </button>
+                <button class="nav-item" onclick="navigation.setActiveTab('profile')" data-tab="profile">
+                    <i data-lucide="user" class="nav-icon"></i>
+                    <span class="nav-label">Perfil</span>
+                    <div class="nav-indicator"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

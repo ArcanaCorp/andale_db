@@ -1,0 +1,1 @@
+export const getPlaceEvents = async (req, res) => {}
