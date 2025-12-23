@@ -10,6 +10,7 @@ const router = Router();
 
 /* ==================== LOGIN ==================== */
 router.post("/login", SocioController.login);
+router.post('/verify', SocioController.verifyOTP);
 router.post("/logout", SocioController.logout);
 /* ==================== LOGIN ==================== */
 

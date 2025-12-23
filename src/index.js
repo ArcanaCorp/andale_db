@@ -15,6 +15,8 @@ const server = http.createServer(app);
 const allowedOrigins = [
     "http://localhost:3000",        // desarrollo
     "http://192.168.18.12:3000",    // desarrollo movil
+    "http://localhost:3001",        // desarrollo
+    "http://192.168.18.12:3001",    // desarrollo movil
     "http://localhost:5173",        // vite
     "https://andaleya.pe",          // prod
     "https://merchants.andaleya.pe",// prod
